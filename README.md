@@ -12,4 +12,4 @@ A desktop-based Cyber Security Toolkit developed using Python, Tkinter, and SQLi
 - WHOIS Lookup
 - Network Information
 - File Integrity Checker
-- Encryption & Decryption
+- Encryption & Decryption -M
