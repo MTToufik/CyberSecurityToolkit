@@ -1,7 +1,7 @@
 # import sqlite3 library
 import sqlite3
 
-from psutil import users
+
 
 db_name = "database/security.db"
 
@@ -15,7 +15,7 @@ def connect_db():
         print(f"Connected successfully")
         return conn, cursor
     except sqlite3.Error as e:
-        print(f"Database connection error")
+        print("Database connection error")
         print(e)
         return None, None
     
@@ -61,4 +61,34 @@ def create_tables():
         conn.close()
         print("Database connection closed after creating tables.")
 
-   
+
+# function for insert user data
+
+def insert_user(username, email, password):
+
+    conn, cursor = connect_db()
+
+    if conn is None or cursor is None:
+        return False
+    
+    try:
+        cursor.execute(
+            """
+            INSERT INTO users(username,email,password)
+            VALUES (?, ?, ?)
+            """,
+            # pass the value here (?)
+            (username, email,password)
+        )
+        conn.commit()
+        return True
+    except sqlite3.IntegrityError:
+        return False
+    except sqlite3.Error as e:
+        print(e)
+        return False
+
+    finally:
+        conn.close()
+
+       
