@@ -1,5 +1,8 @@
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import messagebox 
+from database import insert_user
+from modules.hash_generator import generate_hash
+#from login import LoginWindow
 
 # class for register window
 
@@ -104,7 +107,8 @@ class RegisterWindow:
         self.login_button = tk.Button(
             self.window,
             text="Login",
-            width=20
+            width=20,
+            command=self.open_login
         )
         self.login_button.pack(pady=10)
 
@@ -124,5 +128,28 @@ class RegisterWindow:
         if password != confirm_password:
             messagebox.showerror("Error", "Password do not match.")
             return
-        messagebox.showinfo("Success", "Validation completed successfully")
+
+        # generated password hash
+        hashed_password = generate_hash(password)
+        # save users to database
+
+        success = insert_user(username,email,hashed_password)
+
+        if success:
+            messagebox.showinfo("success", "Registration completed successfully")
+
+        else:
+            messagebox.showerror(
+                "Error",
+                "Username or email already exists"
+            )
+        #messagebox.showinfo("Success", "Validation completed successfully")
+
+    def open_login(self):
+        from login import LoginWindow
+        self.window.destroy()
+        LoginWindow()
+
+
+        
         

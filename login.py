@@ -1,5 +1,9 @@
 import tkinter as tk
 import os
+from tkinter import messagebox 
+from database import login_user
+from modules.hash_generator import verify_hash
+from register import RegisterWindow
 
 # create class for the each program 
 
@@ -47,7 +51,7 @@ class LoginWindow:
 
         self.password_label = tk.Label(
             self.window,
-            text="password"
+            text="Password"
         )
         self.password_label.pack(pady=(15,0))
 
@@ -64,7 +68,8 @@ class LoginWindow:
         self.login_button = tk.Button(
             self.window,
             text="Login",
-            width=15,
+            width=20,
+            command=self.login
 
         )
         self.login_button.pack(pady=20)
@@ -83,7 +88,46 @@ class LoginWindow:
         self.register_button = tk.Button(
             self.window,
             text="Register",
-            width= 20
+            width= 20,
+            command= self.open_register
         )
         self.register_button.pack(pady=10)
         self.window.mainloop()
+
+        # connect to database 
+
+    def login(self):
+        username= self.username_entry.get().strip()
+        password = self.password_entry.get()
+
+        if not username or not password:
+            messagebox.showerror(
+                "Error",
+                "Please enter username and password"
+                )
+            return
+
+        user = login_user(username)
+        if user is None:
+            messagebox.showerror(
+                "Error",
+                "Username not found"
+            )
+            return
+        stored_hash = user[3]
+
+        if verify_hash(password, stored_hash):
+            messagebox.showinfo(
+                "Success",
+                "Login Successfull"
+            )
+
+        else:
+            messagebox.showerror(
+                "Error",
+                "Incorrect Password"
+            )
+
+    def open_register(self):
+        self.window.destroy()
+        RegisterWindow()

@@ -91,4 +91,29 @@ def insert_user(username, email, password):
     finally:
         conn.close()
 
+# insert users information
+
+def login_user(username):
+
+    conn, cursor = connect_db()
+
+    if conn is None or cursor is None:
+        return None
+
+    try:
+
+        cursor.execute(
+            """
+            SELECT * FROM users
+            WHERE username = ?
+            """,
+            (username,)
+        )
+        user = cursor.fetchone()
+        return user
+    except sqlite3.Error as e:
+        print(e)
+        return None
+    finally:
+        conn.close()
        
