@@ -116,4 +116,32 @@ def login_user(username):
         return None
     finally:
         conn.close()
+
+# function to insert history data
+
+from datetime import datetime
+
+def save_history(user_id, tool_name, result):
+    conn, cursor = connect_db()
+
+    if conn is None or cursor is None:
+        return False
+
+    try:
+        current_datetime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        cursor.execute(
+            """
+            INSERT INTO history(user_id, tool_name, result, datetime)
+            VALUES (?, ?, ?, ?)
+            """,
+            (user_id, tool_name, result, current_datetime)
+        )
+        conn.commit()
+        return True
+    except sqlite3.Error as e:
+        print(e)
+        return False
+    finally:
+        conn.close()
+        
        

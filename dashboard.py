@@ -1,0 +1,195 @@
+import tkinter as tk
+from modules.password_generator import PasswordGeneratorWindow
+
+
+class DashboardWindow:
+
+    # Function to create a rounded rectangle
+    def round_rectangle(self, canvas, x1, y1, x2, y2, radius=25, **kwargs):
+
+        points = [
+            x1 + radius, y1,
+            x2 - radius, y1,
+            x2, y1,
+            x2, y1 + radius,
+            x2, y2 - radius,
+            x2, y2,
+            x2 - radius, y2,
+            x1 + radius, y2,
+            x1, y2,
+            x1, y2 - radius,
+            x1, y1 + radius,
+            x1, y1
+        ]
+
+        return canvas.create_polygon(
+            points,
+            smooth=True,
+            **kwargs
+        )
+
+    def __init__(self, user_id):
+
+        self.user_id = user_id
+
+        # Create Window
+        self.window = tk.Tk()
+        self.window.title("Cyber Security ToolKit - Dashboard")
+        self.window.geometry("1200x800")
+        self.window.resizable(False, False)
+        self.window.configure(bg="#EAF2F8")
+
+        
+        # Rounded Header
+    
+
+        self.header_canvas = tk.Canvas(
+            self.window,
+            width=500,
+            height=90,
+            bg="#EAF2F8",
+            highlightthickness=0
+        )
+        self.header_canvas.pack(pady=20)
+
+        self.round_rectangle(
+            self.header_canvas,
+            10, 10, 490, 80,
+            radius=30,
+            fill="#1F4E79",
+            outline="#1F4E79"
+        )
+
+        self.header_canvas.create_text(
+            250,
+            45,
+            text="Cyber Security Toolkit",
+            font=("Arial", 22, "bold"),
+            fill="white"
+        )
+
+
+        # Welcome Label
+        
+
+        self.welcome_label = tk.Label(
+            self.window,
+            text="Welcome To Dashboard",
+            font=("Arial", 15, "bold"),
+            bg="#EAF2F8",
+            fg="#1F4E79"
+        )
+        self.welcome_label.pack(pady=15)
+
+
+        # Button Frame
+    
+
+        self.button_frame = tk.Frame(
+            self.window,
+            bg="#EAF2F8"
+        )
+        self.button_frame.pack(pady=20)
+
+        # common button style
+        button_style ={
+
+            "width": 22,
+            "height": 2,
+            "font": ("Arial", 10, "bold"),
+            "bg": "#3498DB",
+            "fg": "white",
+            "activebackground": "#2980B9",
+            "activeforeground": "white",
+            "relief": "flat",
+            "cursor": "hand2"
+        }
+
+        # Password Generator
+        self.password_button = tk.Button(
+            self.button_frame,
+            text="🔑  Password Generator",
+            command= self.open_password_generator,
+            **button_style
+            
+        )
+        self.password_button.grid(row=0, column=0, padx=10, pady=10)
+
+        # Hash Generator
+
+        self.hash_button = tk.Button(
+            self.button_frame,
+            text="🔒   Hash Generator",
+            **button_style
+        )
+        self.hash_button.grid(row=0, column=1, padx=10, pady=10)
+
+        # ping tool
+
+        self.ping_button = tk.Button(
+             self.button_frame,
+             text="📡  Ping Tool",
+                **button_style
+        )
+        self.ping_button.grid(row=1, column=0, padx=10, pady=10)
+
+        # port scanner
+
+        self.port_button = tk.Button(
+            self.button_frame,
+            text="🔍  Port Scanner",
+            **button_style
+        )
+        self.port_button.grid(row=1, column=1, padx=10, pady=10)
+
+        # whois lookup
+
+        self.whois_button = tk.Button(
+            self.button_frame,
+            text="🌐  WHOIS LookUP",
+            **button_style
+        )
+        self.whois_button.grid(row=2, column=0, padx=10, pady=10)
+
+        # network info
+
+        self.network_button = tk.Button(
+            self.button_frame,
+            text="💻   Network Info",
+            **button_style
+        )
+        self.network_button.grid(row=2, column=1, padx=10, pady=10)
+
+        # file checker button
+
+        self.file_checker_button = tk.Button(
+            self.button_frame,
+            text="🛡️ File Checker",
+            **button_style
+        )
+        self.file_checker_button.grid(row=3, column=0, padx=10, pady=10)
+
+        # history button
+
+        self.history_button = tk.Button(
+            self.button_frame,
+            text="📜  History",
+            **button_style
+        )
+        self.history_button.grid(row=3, column=1, padx=10, pady=10)
+
+        # logout button
+        self.logout_button = tk.Button(
+            self.button_frame,
+            text="🚪  Logout",
+            **button_style
+            
+        )
+        self.logout_button.grid(row=4,column=0,columnspan=2, pady=25)
+
+        self.window.mainloop()
+
+    def open_password_generator(self):
+        PasswordGeneratorWindow(self.user_id)
+
+

@@ -4,6 +4,7 @@ from tkinter import messagebox
 from database import login_user
 from modules.hash_generator import verify_hash
 from register import RegisterWindow
+from dashboard import DashboardWindow
 
 # create class for the each program 
 
@@ -95,7 +96,7 @@ class LoginWindow:
         self.window.mainloop()
 
         # connect to database 
-
+    
     def login(self):
         username= self.username_entry.get().strip()
         password = self.password_entry.get()
@@ -121,6 +122,8 @@ class LoginWindow:
                 "Success",
                 "Login Successfull"
             )
+            self.window.destroy()
+            DashboardWindow(user[0])
 
         else:
             messagebox.showerror(
