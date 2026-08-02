@@ -1,6 +1,6 @@
 import tkinter as tk
 from modules.password_generator import PasswordGeneratorWindow
-
+from modules.history import HistoryWindow
 
 class DashboardWindow:
 
@@ -174,6 +174,7 @@ class DashboardWindow:
         self.history_button = tk.Button(
             self.button_frame,
             text="📜  History",
+            command=self.open_history_window,
             **button_style
         )
         self.history_button.grid(row=3, column=1, padx=10, pady=10)
@@ -192,4 +193,5 @@ class DashboardWindow:
     def open_password_generator(self):
         PasswordGeneratorWindow(self.user_id)
 
-
+    def open_history_window(self):
+        HistoryWindow(self.user_id)

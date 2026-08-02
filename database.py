@@ -143,5 +143,32 @@ def save_history(user_id, tool_name, result):
         return False
     finally:
         conn.close()
-        
-       
+
+# get history data for a specific user
+
+def get_history(user_id):
+    conn, cursor = connect_db()
+
+    if conn is None or cursor is None:
+        return []
+
+    try:
+        cursor.execute(
+            """
+            SELECT tool_name, result, datetime
+            FROM history
+            WHERE user_id = ?
+            ORDER BY id DESC
+            """,
+            (user_id,)
+        )
+
+        history = cursor.fetchall()
+        return history
+
+    except sqlite3.Error as e:
+        print(e)
+        return []
+
+    finally:
+        conn.close()
