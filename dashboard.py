@@ -2,6 +2,7 @@ import tkinter as tk
 from modules.password_generator import PasswordGeneratorWindow
 from modules.history import HistoryWindow
 from modules.hash_generator import HashGeneratorWindow
+from modules.ping_tool import PingToolWindow
 
 class DashboardWindow:
 
@@ -131,6 +132,7 @@ class DashboardWindow:
         self.ping_button = tk.Button(
              self.button_frame,
              text="📡  Ping Tool",
+             command=self.open_ping_tool,
                 **button_style
         )
         self.ping_button.grid(row=1, column=0, padx=10, pady=10)
@@ -200,3 +202,7 @@ class DashboardWindow:
 
     def open_hash_generator(self):
         HashGeneratorWindow(self.user_id)
+
+    def open_ping_tool(self):
+        PingToolWindow(self.user_id)
+        
