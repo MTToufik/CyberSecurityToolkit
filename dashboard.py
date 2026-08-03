@@ -1,6 +1,7 @@
 import tkinter as tk
 from modules.password_generator import PasswordGeneratorWindow
 from modules.history import HistoryWindow
+from modules.hash_generator import HashGeneratorWindow
 
 class DashboardWindow:
 
@@ -120,6 +121,7 @@ class DashboardWindow:
         self.hash_button = tk.Button(
             self.button_frame,
             text="🔒   Hash Generator",
+            command = self.open_hash_generator,
             **button_style
         )
         self.hash_button.grid(row=0, column=1, padx=10, pady=10)
@@ -195,3 +197,6 @@ class DashboardWindow:
 
     def open_history_window(self):
         HistoryWindow(self.user_id)
+
+    def open_hash_generator(self):
+        HashGeneratorWindow(self.user_id)
