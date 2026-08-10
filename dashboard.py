@@ -4,6 +4,7 @@ from modules.history import HistoryWindow
 from modules.hash_generator import HashGeneratorWindow
 from modules.ping_tool import PingToolWindow
 from modules.network_info import NetworkinfoWindow
+from modules.whois_lookup import WhoisLookupWindow
 
 class DashboardWindow:
 
@@ -152,6 +153,7 @@ class DashboardWindow:
         self.whois_button = tk.Button(
             self.button_frame,
             text="🌐  WHOIS LookUP",
+            command=self.open_whois_lookup,
             **button_style
         )
         self.whois_button.grid(row=2, column=0, padx=10, pady=10)
@@ -210,6 +212,9 @@ class DashboardWindow:
 
     def open_ping_tool(self):
         PingToolWindow(self.user_id)
+
+    def open_whois_lookup(self):
+        WhoisLookupWindow(self.user_id)
 
    
         
