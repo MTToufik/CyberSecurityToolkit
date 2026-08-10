@@ -3,6 +3,7 @@ from modules.password_generator import PasswordGeneratorWindow
 from modules.history import HistoryWindow
 from modules.hash_generator import HashGeneratorWindow
 from modules.ping_tool import PingToolWindow
+from modules.network_info import NetworkinfoWindow
 
 class DashboardWindow:
 
@@ -160,6 +161,7 @@ class DashboardWindow:
         self.network_button = tk.Button(
             self.button_frame,
             text="💻   Network Info",
+            command=self.open_network_info,
             **button_style
         )
         self.network_button.grid(row=2, column=1, padx=10, pady=10)
@@ -200,9 +202,14 @@ class DashboardWindow:
     def open_history_window(self):
         HistoryWindow(self.user_id)
 
+    def open_network_info(self):
+        NetworkinfoWindow(self.user_id)
+
     def open_hash_generator(self):
         HashGeneratorWindow(self.user_id)
 
     def open_ping_tool(self):
         PingToolWindow(self.user_id)
+
+   
         
