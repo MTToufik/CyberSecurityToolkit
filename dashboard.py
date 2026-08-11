@@ -5,6 +5,7 @@ from modules.hash_generator import HashGeneratorWindow
 from modules.ping_tool import PingToolWindow
 from modules.network_info import NetworkinfoWindow
 from modules.whois_lookup import WhoisLookupWindow
+from modules.port_scanner import PortScannerWindow
 
 class DashboardWindow:
 
@@ -144,6 +145,7 @@ class DashboardWindow:
         self.port_button = tk.Button(
             self.button_frame,
             text="🔍  Port Scanner",
+            command=self.open_port_scanner,
             **button_style
         )
         self.port_button.grid(row=1, column=1, padx=10, pady=10)
@@ -215,6 +217,9 @@ class DashboardWindow:
 
     def open_whois_lookup(self):
         WhoisLookupWindow(self.user_id)
+
+    def open_port_scanner(self):
+        PortScannerWindow(self.user_id)
 
    
         
