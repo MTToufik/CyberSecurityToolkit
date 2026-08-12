@@ -1,11 +1,15 @@
 import tkinter as tk
+from tkinter import messagebox
+
 from modules.password_generator import PasswordGeneratorWindow
 from modules.history import HistoryWindow
 from modules.hash_generator import HashGeneratorWindow
 from modules.ping_tool import PingToolWindow
-from modules.network_info import NetworkinfoWindow
+from modules.network_info import NetworkInfoWindow
 from modules.whois_lookup import WhoisLookupWindow
 from modules.port_scanner import PortScannerWindow
+from modules.file_checker import FileCheckerWindow
+from modules.encryption import EncryptionWindow
 
 class DashboardWindow:
 
@@ -175,9 +179,22 @@ class DashboardWindow:
         self.file_checker_button = tk.Button(
             self.button_frame,
             text="🛡️ File Checker",
+            command=self.open_file_checker,
             **button_style
         )
         self.file_checker_button.grid(row=3, column=0, padx=10, pady=10)
+
+        # encryption 
+
+        # encryption button
+
+        self.encryption_button = tk.Button(
+            self.button_frame,
+            text="🔐  Encryption",
+            command=self.open_encryption,
+            **button_style
+        )
+        self.encryption_button.grid(row=3, column=1, padx=10, pady=10)
 
         # history button
 
@@ -187,16 +204,17 @@ class DashboardWindow:
             command=self.open_history_window,
             **button_style
         )
-        self.history_button.grid(row=3, column=1, padx=10, pady=10)
+        self.history_button.grid(row=4, column=0, padx=10, pady=10)
 
         # logout button
         self.logout_button = tk.Button(
             self.button_frame,
             text="🚪  Logout",
+            command=self.logout,
             **button_style
             
         )
-        self.logout_button.grid(row=4,column=0,columnspan=2, pady=25)
+        self.logout_button.grid(row=5,column=0,columnspan=2, pady=25)
 
         self.window.mainloop()
 
@@ -207,7 +225,7 @@ class DashboardWindow:
         HistoryWindow(self.user_id)
 
     def open_network_info(self):
-        NetworkinfoWindow(self.user_id)
+        NetworkInfoWindow(self.user_id)
 
     def open_hash_generator(self):
         HashGeneratorWindow(self.user_id)
@@ -220,6 +238,25 @@ class DashboardWindow:
 
     def open_port_scanner(self):
         PortScannerWindow(self.user_id)
+
+    def open_file_checker(self):
+        FileCheckerWindow(self.user_id)
+
+    def open_encryption(self):
+        EncryptionWindow(self.user_id)
+
+
+    def logout(self):
+
+        confirm = messagebox.askyesno(
+        "Logout",
+        "Are you sure you want to logout?"
+        )
+
+        if confirm:
+            self.window.destroy()
+            from login import LoginWindow
+            LoginWindow()
 
    
         

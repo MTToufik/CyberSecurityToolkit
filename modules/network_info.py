@@ -3,7 +3,7 @@ import socket
 import platform
 from database import save_history
 
-class NetworkinfoWindow:
+class NetworkInfoWindow:
 
     def __init__(self,user_id):
 
