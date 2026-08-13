@@ -2,7 +2,11 @@ import tkinter as tk
 from tkinter import filedialog, messagebox
 import hashlib
 
-from database import save_history
+from database import (
+    save_history,
+    save_file_hash,
+    get_file_hash
+)
 
 
 class FileCheckerWindow:
@@ -30,7 +34,7 @@ class FileCheckerWindow:
         # File path label
         self.file_label = tk.Label(
             self.window,
-            text="Select a file to generate its SHA-256 hash",
+            text="Select a file to check its SHA-256 integrity",
             font=("Arial", 12),
             bg="#EAF2F8"
         )
@@ -110,6 +114,8 @@ class FileCheckerWindow:
 
         self.window.mainloop()
 
+
+    # Browse file
     def browse_file(self):
 
         file_path = filedialog.askopenfilename()
@@ -120,6 +126,27 @@ class FileCheckerWindow:
         self.file_entry.delete(0, tk.END)
         self.file_entry.insert(0, file_path)
 
+
+    # Generate SHA-256 hash
+    def calculate_file_hash(self, file_path):
+
+        sha256_hash = hashlib.sha256()
+
+        with open(file_path, "rb") as file:
+
+            while True:
+
+                data = file.read(4096)
+
+                if not data:
+                    break
+
+                sha256_hash.update(data)
+
+        return sha256_hash.hexdigest()
+
+
+    # Check file integrity
     def check_file(self):
 
         file_path = self.file_entry.get().strip()
@@ -133,33 +160,65 @@ class FileCheckerWindow:
 
         try:
 
-            sha256_hash = hashlib.sha256()
+            # Generate current file hash
+            current_hash = self.calculate_file_hash(file_path)
 
-            with open(file_path, "rb") as file:
-
-                while True:
-
-                    data = file.read(4096)
-
-                    if not data:
-                        break
-
-                    sha256_hash.update(data)
-
-            file_hash = sha256_hash.hexdigest()
-
-            result = (
-                f"File Path : {file_path}\n\n"
-                f"SHA-256 Hash :\n"
-                f"{file_hash}\n"
+            # Get previously stored hash from database
+            previous_hash = get_file_hash(
+                self.user_id,
+                file_path
             )
 
-            self.result_text.delete("1.0", tk.END)
-            self.result_text.insert(tk.END, result)
+            # First time checking this file
+            if previous_hash is None:
 
+                status = (
+                    "First check completed.\n"
+                    "Baseline hash has been saved."
+                )
+
+                save_file_hash(
+                    self.user_id,
+                    file_path,
+                    current_hash
+                )
+
+            # File has not changed
+            elif current_hash == previous_hash:
+
+                status = "File is unchanged."
+
+            # File has changed
+            else:
+
+                status = (
+                    "⚠️ WARNING: File has been modified!"
+                )
+
+            # Display result
+            result = (
+                f"File Path : {file_path}\n\n"
+                f"Current SHA-256 Hash :\n"
+                f"{current_hash}\n\n"
+                f"Status :\n"
+                f"{status}\n"
+            )
+
+            self.result_text.delete(
+                "1.0",
+                tk.END
+            )
+
+            self.result_text.insert(
+                tk.END,
+                result
+            )
+
+            # Save result to history
             history_result = (
                 f"File: {file_path} | "
-                f"SHA-256: {file_hash}"
+                f"SHA-256: {current_hash} | "
+                f"Status: {status}"
             )
 
             save_history(
@@ -167,6 +226,30 @@ class FileCheckerWindow:
                 "File Checker",
                 history_result
             )
+
+            # Show status message
+            if previous_hash is None:
+
+                messagebox.showinfo(
+                    "File Checker",
+                    "First check completed.\n"
+                    "Baseline hash has been saved."
+                )
+
+            elif current_hash == previous_hash:
+
+                messagebox.showinfo(
+                    "File Integrity",
+                    "File is unchanged."
+                )
+
+            else:
+
+                messagebox.showwarning(
+                    "File Integrity Warning",
+                    "File has been modified!"
+                )
+
 
         except FileNotFoundError:
 
