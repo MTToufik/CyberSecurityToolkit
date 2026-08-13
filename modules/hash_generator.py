@@ -29,7 +29,7 @@ def generate_hash(text):
 def verify_hash(text, stored_hash):
     
 
-    # compare the hash with databash hash file
+    # Compare the newly generated hash with the provided hash
     new_hash = generate_hash(text)
     return new_hash == stored_hash
 
