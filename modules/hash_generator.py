@@ -42,8 +42,8 @@ class HashGeneratorWindow:
 
         self.window = tk.Tk()
         self.window.title("Hash Generator")
-        self.window.geometry("800x600")
-        self.window.resizable(False, False)
+        self.window.state("zoomed")
+        self.window.resizable(True, True)
         self.window.configure(bg="#EAF2F8")
 
         self.title_label = tk.Label(
@@ -164,6 +164,21 @@ class HashGeneratorWindow:
         )
         self.verify_button.pack(pady=10)
 
+        # Close button
+        self.close_button = tk.Button(
+            self.window,
+            text="Close",
+            width=18,
+            height=2,
+            bg="#E74C3C",
+            fg="white",
+            font=("Arial", 11, "bold"),
+            relief="flat",
+            cursor="hand2",
+            command=self.window.destroy
+        )
+        self.close_button.pack(pady=10)
+     
        
 
         

@@ -14,8 +14,8 @@ class PortScannerWindow:
 
         self.window = tk.Tk()
         self.window.title("Port Scanner")
-        self.window.geometry("1200x800")
-        self.window.resizable(False,False)
+        self.window.state("zoomed")
+        self.window.resizable(True, True)
         self.window.configure(bg="#EAF2F8")
 
         self.title_label = tk.Label(

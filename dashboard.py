@@ -44,8 +44,28 @@ class DashboardWindow:
         # Create Window
         self.window = tk.Tk()
         self.window.title("Cyber Security ToolKit - Dashboard")
-        self.window.geometry("1200x800")
-        self.window.resizable(False, False)
+
+        # # Get screen size 
+
+        # screen_width = self.window.winfo_screenwidth()
+        # screen_height = self.window.winfo_screenheight()
+
+        # # window size to 80% of screen
+
+        # window_width = int(screen_width * 0.90)
+        # window_height = int(screen_height * 0.90)
+        # # calculate center position
+
+        # x = (screen_width - window_width) // 2
+        # y = (screen_height  - window_height) // 2
+
+        # # set responsive window size
+        # self.window.geometry(
+        #     f"{window_width}x{window_height}+{x}+{y}"
+        # ) 
+        # #self.window.geometry("1200x800")
+        self.window.state("zoomed")
+        self.window.resizable(True, True)
         self.window.configure(bg="#EAF2F8")
 
         

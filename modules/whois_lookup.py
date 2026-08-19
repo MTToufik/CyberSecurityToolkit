@@ -11,8 +11,8 @@ class WhoisLookupWindow:
 
         self.window = tk.Tk()
         self.window.title("WHOIS Lookup")
-        self.window.geometry("900x650")
-        self.window.resizable(False, False)
+        self.window.state("zoomed")
+        self.window.resizable(True, True)
         self.window.configure(bg="#EAF2F8")
 
 

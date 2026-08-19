@@ -13,8 +13,8 @@ class EncryptionWindow:
 
         self.window = tk.Tk()
         self.window.title("Encryption Tool")
-        self.window.geometry("900x700")
-        self.window.resizable(False, False)
+        self.window.state("zoomed")
+        self.window.resizable(True, True)
         self.window.configure(bg="#EAF2F8")
 
         # Title
